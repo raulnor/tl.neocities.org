@@ -6,6 +6,7 @@ title = 'Travis Luckenbaugh'
   posts = '/:year/:month/:title/'
   tdp = '/tdp/:title/'
   tools = '/tools/:title/'
+  wiki = '/w/:title'
 
 [markup.goldmark]
   extensions.typographer = false

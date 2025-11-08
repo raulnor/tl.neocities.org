@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ .Title }} | {{ .Site.Title }}</title>
+    <link rel="icon" type="image/jpeg" href="/ff4.jpg">
+</head>
+
+<body>
+    <div>{{ .Content }}</div>
+    <style>
+        * { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+        body { line-height: 1.6; color: #fff; background-color: #000; }
+        body { margin: 1em auto; max-width: 35em; }
+        h1 { margin: 0; font-size: 18pt; font-weight: bold; }
+        h2 { margin: 0; font-size: 16pt; font-weight: bold; }
+        h3 { margin-top: 18px; margin-bottom: 2px; font-size: 14pt; font-weight: normal; line-height: 1.2; border-top: 1px solid black; }
+        p { margin: 0; font-size: 11pt; }
+        a { color: #f1c40f; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        a:visited { color: #e67e22; }
+        table { border-collapse: collapse; margin: 1em 0; }
+        th, td { padding: 0.25em; text-align: center; border: 1px solid #444; }
+        th { background-color: #111; font-weight: bold; }
+        td { min-width: 2em; }
+        @media print {
+            body { background-color: #ffffff; color: #000000; max-width: 100%; }
+            a, a:visited { color: #000000; text-decoration: underline; }
+        }
+    </style>
+</body>
+
+</html>
