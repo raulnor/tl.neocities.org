@@ -14,3 +14,9 @@ title = 'Travis Luckenbaugh'
 
 [markup.highlight]
   style = "github-dark"
+
+[[cascade]]
+  [cascade._build]
+    list = "never"
+  [cascade._target]
+    path = "{/wiki/**,/tdp/**}"
