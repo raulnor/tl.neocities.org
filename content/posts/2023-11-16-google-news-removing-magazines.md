@@ -1,7 +1,7 @@
 ---
 title: "Google News Removes Purchased Magazines"
 date: 2023-11-16
-tags: google
+tags: tech
 ---
 
 From my e-mail:

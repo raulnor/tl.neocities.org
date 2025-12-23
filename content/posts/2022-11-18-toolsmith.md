@@ -1,5 +1,6 @@
 ---
 title: "Toolsmith"
+tags: tech
 date: 2022-11-18
 ---
 
