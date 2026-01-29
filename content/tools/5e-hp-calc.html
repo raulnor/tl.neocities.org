@@ -1,0 +1,160 @@
+---
+title: '5E HP Calc'
+date: 2026-01-19
+summary: Quick check for character max hit points
+---
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="icon" type="image/jpeg" href="/ff4.jpg">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<style>
+    * {
+        color: rgb(255, 215, 0);
+        font-family: 'Inter', sans-serif;
+        font-size: 18px;
+    }
+    html { touch-action: manipulation; }
+    html, body { height: 100%; overflow: hidden; }
+    button {
+        border: 2px solid rgb(255, 215, 0);
+        background: linear-gradient(135deg, #4a4038 0%, #3a3028 100%);
+        font-weight: bold;
+        cursor: pointer;
+    }
+    label { display: block; margin-bottom: 0.25em; }
+    select, input { background-color: #4a4038;}
+    .output { font-weight: bold; color: white }
+</style>
+<body>
+    <h1>5E HP Calc</h1>
+    <label>Name (optional)
+        <input type="text" id="name" placeholder="Unnamed Hero">
+    </label>
+    <div id="classes">
+        <div class="class-row">
+            <label>Class
+                <select class="class-select" onchange="on_change_class_hit_dice(this, 0)">
+                    <option value="d6">Sorcerer / Wizard (d6)</option>
+                    <option value="d8">Artificer / Bard / Cleric / Druid / Monk / Rogue / Warlock (d8)</option>
+                    <option value="d10">Fighter / Paladin / Ranger (d10)</option>
+                    <option value="d12">Barbarian (d12)</option>
+                </select>
+            </label>
+            <label>Levels
+                <input type="number" class="level-input" min="1" max="20" value="1" onchange="on_change_class_level(this, 0)">
+            </label>
+        </div>
+    </div>
+    <label>Constitution Score
+        <input type="number" id="constitution" min="1" max="30" value="10" onchange="on_change_con(this)">
+    </label>
+    <label><input type="checkbox" id="tough" onchange="on_change_tough(this)"> Tough</label>
+    <label><input type="checkbox" id="hill-dwarf"  onchange="on_change_hill_dwarf(this)"> Hill Dwarf (2014 only)</label>
+    <label>Max Hit Points: 
+        <span id="hitPoints" class="output">0</span>
+    </label>
+        
+    <p style="margin-top: 20px;">
+        <button style="padding: 4px;" onclick="add_multi_class()">Add Class</button>
+        <button style="padding: 4px;" onclick="reset()">Clear</button>
+    </p>
+</body>
+<script>
+    var locals = { name: "", classes: [["d6", 1]], constitution: 10, tough: false, hillDwarf: false };
+    function add_multi_class() {
+        const container = document.getElementById('classes');
+        const index = container.children.length;
+        const row = document.createElement('div');
+        row.dataset.index = index;
+        row.className = 'class-row';
+        row.innerHTML = `
+        <div class="class-row">
+            <label>Class
+                <select class="class-select" onchange="on_change_class_hit_dice(this, ${index})">
+                    <option value="d6">Sorcerer / Wizard (d6)</option>
+                    <option value="d8">Artificer / Bard / Cleric / Druid / Monk / Rogue / Warlock (d8)</option>
+                    <option value="d10">Fighter / Paladin / Ranger (d10)</option>
+                    <option value="d12">Barbarian (d12)</option>
+                </select>
+            </label>
+            <label>Levels
+                <input type="number" class="level-input" min="1" max="20" value="1" onchange="on_change_class_level(this, ${index})">
+            </label>
+        </div>
+      `;
+      container.appendChild(row);
+      locals.classes.push(["d6", 1]);
+      update_max_hp();
+    }
+    function calc_max_hp(stats) {
+        const hitDice = { d6: 6, d8: 8, d10: 10, d12: 12 };
+        const avgRoll = { d6: 4, d8: 5, d10: 6, d12: 7 };
+        const conMod = Math.floor((stats.constitution - 10) / 2);
+        let hp = 0;
+        let level = 0;
+        stats.classes.forEach(([hd, levels]) => {
+            let addHp = 0;
+            if (level == 0) {
+                addHp += hitDice[hd] + conMod;
+                addHp += (levels - 1) * (avgRoll[hd] + conMod);
+            } else {
+                addHp += levels * (avgRoll[hd] + conMod);
+            }
+            hp += Math.max(addHp, levels); // Minimum 1 HP per level
+            level += levels;
+        });
+        if (stats.tough) hp += level * 2;
+        if (stats.hillDwarf) hp += level;
+        return hp;
+    }
+    function on_change_class_hit_dice(element, index) {
+        locals.classes[index][0] = element.value;
+        update_max_hp();
+    }
+    function on_change_class_level(element, index) {
+        locals.classes[index][1] = parseInt(element.value);
+        update_max_hp();
+    }
+    function on_change_con(element) {
+        locals.constitution = parseInt(element.value);
+        update_max_hp();
+    }
+    function on_change_tough(element) {
+        locals.tough = element.checked;
+        update_max_hp();
+    }
+    function on_change_hill_dwarf(element) {
+        locals.hillDwarf = element.checked;
+        update_max_hp();
+    }
+    function reset() {
+        locals = { name: "", classes: [["d6", 1]], constitution: 10, tough: false, hillDwarf: false };
+        document.getElementById("name").value = locals.name;
+        const container = document.getElementById('classes');
+        container.innerHTML = `
+        <div class="class-row">
+            <label>Class
+                <select class="class-select" onchange="on_change_class_hit_dice(this, 0)">
+                    <option value="d6">Sorcerer / Wizard (d6)</option>
+                    <option value="d8">Artificer / Bard / Cleric / Druid / Monk / Rogue / Warlock (d8)</option>
+                    <option value="d10">Fighter / Paladin / Ranger (d10)</option>
+                    <option value="d12">Barbarian (d12)</option>
+                </select>
+            </label>
+            <label>Levels
+                <input type="number" class="level-input" min="1" max="20" value="1" onchange="on_change_class_level(this, 0)">
+            </label>
+        </div>
+        `;
+        document.getElementById("constitution").value = locals.constitution;
+        document.getElementById("tough").checked = locals.tough;
+        document.getElementById("hill-dwarf").checked = locals.hillDwarf;
+        update_max_hp();
+    }
+    function update_max_hp() {
+        document.getElementById("hitPoints").innerText = calc_max_hp(locals);
+    }
+    update_max_hp();
+</script>
