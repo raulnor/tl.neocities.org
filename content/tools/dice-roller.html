@@ -1,0 +1,130 @@
+---
+title: 'Dice Roller'
+date: 2026-02-27
+summary: Dice tray for my phone
+---
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="icon" type="image/jpeg" href="/ff4.jpg">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+        color: rgb(255, 215, 0);
+        font-family: 'Inter', sans-serif;
+    }
+
+    html { touch-action: manipulation; }
+    html, body { height: 100%; overflow: hidden; }
+    body { display: flex; flex-direction: column; }
+    h1 { 
+        font-size: 1.5rem;
+        text-align: center; 
+        border-bottom: none; 
+        margin-bottom: 0; 
+        padding-bottom: 0; 
+    }
+
+    textarea {
+        flex: 1;
+        margin: 1rem 0;
+        background: #2a2520;
+        border: 1px solid rgba(255, 215, 0, 0.2);
+        border-radius: 0.5rem;
+        font-family: 'Inter', monospace;
+        font-size: 1rem;
+        line-height: 1.6;
+        color: white;
+        resize: none;
+        outline: none;
+    }
+
+    .roller {
+        width: 100%;
+        max-width: 640px;
+        height: 100vh;
+        max-height: 480px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .tray {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 0.4rem;
+        padding: 0.5rem;
+        padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+    }
+
+    .tray button {
+        aspect-ratio: 1;
+        border: 2px solid rgb(255, 215, 0);
+        border-radius: 0.5rem;
+        background: linear-gradient(135deg, #4a4038 0%, #3a3028 100%);
+        color: rgb(255, 215, 0);
+        font-size: clamp(0.9rem, 3.5vw, 1.2rem);
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.1s, background 0.1s;
+    }
+
+    .tray button:active {
+        transform: scale(0.93);
+        background: rgb(255, 215, 0);
+        color: #2a2520;
+    }
+</style>
+
+<body>
+    <div class="roller">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+            <div style="width: 3rem;"></div>
+            <h1>Dice Roller</h1>
+            <a style="width: 3rem; cursor: pointer; text-align: right;" onclick="reset()">Clear</a>
+        </div>
+        <textarea id="log" readonly></textarea>
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+            <div id="roll-count"></div>
+            <div id="roll-sum"></div>
+        </div>
+        <div class="tray">
+            <button onclick="d(4)">d4</button>
+            <button onclick="d(6)">d6</button>
+            <button onclick="d(8)">d8</button>
+            <button onclick="d(10)">d10</button>
+            <button onclick="d(12)">d12</button>
+            <button onclick="d(20)">d20</button>
+            <button onclick="d(100)">d%</button>
+        </div>
+    </div>
+</body>
+<script>
+    const log = document.getElementById("log");
+    var rolls = 0;
+    var sum = 0;
+    const rollCount = document.getElementById("roll-count");
+    const rollSum = document.getElementById("roll-sum");
+    function d(x) {
+        const roll = Math.floor(Math.random() * x) + 1;
+        const label = x === 100 ? "d%" : "d" + x;
+        log.value += (log.value ? "\n" : "") + label + " — " + roll;
+        log.scrollTop = log.scrollHeight;
+        rolls += 1;
+        rollCount.innerText = `${rolls} rolls`;
+        sum += roll;
+        rollSum.innerText = `Total: ${sum}`;
+    }
+    function reset() {
+        log.value = "";
+        rolls = 0;
+        rollCount.innerText = "";
+        sum = 0;
+        rollSum.innerText = "";
+    }
+</script>
