@@ -11,72 +11,13 @@
 
 <body>
     <div class="container">
-        <!-- Navigation -->
-        <nav style="margin-bottom: 2rem;">
-            <a href="/" style="color: #f1c40f; text-decoration: none; font-weight: 500;">← Back to Home</a>
-        </nav>
-
-        <!-- Article Header -->
         <article>
-
-
-            <!-- Article Content -->
             <div style="font-size: 1.1rem; line-height: 1.7;">
                 {{ .Content }}
             </div>
-
-            <!-- Article Footer -->
-            <footer style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #444;">
-                <!-- Navigation to other posts -->
-                <div
-                    style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-top: 2rem;">
-                    {{ with .PrevInSection }}
-                    <div style="text-align: left;">
-                        <div style="color: #999; font-size: 0.9rem;">Previous</div>
-                        <a href="{{ .RelPermalink }}" style="color: #f1c40f; text-decoration: none; font-weight: 500;">{{
-                            .Title }}</a>
-                    </div>
-                    {{ end }}
-
-                    {{ with .NextInSection }}
-                    <div style="text-align: right;">
-                        <div style="color: #999; font-size: 0.9rem;">Next</div>
-                        <a href="{{ .RelPermalink }}" style="color: #f1c40f; text-decoration: none; font-weight: 500;">{{
-                            .Title }}</a>
-                    </div>
-                    {{ end }}
-                </div>
-            </footer>
         </article>
-
-        <!-- Related Posts -->
-        {{ $related := .Site.RegularPages.Related . | first 3 }}
-        {{ with $related }}
-        <section style="margin-top: 3rem;">
-            <h2 style="color: #d0d0d0; margin-bottom: 1rem;">Related Posts</h2>
-            <div style="display: grid; gap: 1rem;">
-                {{ range . }}
-                <div
-                    style="background: #2a2a2a; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">
-                    <h3 style="margin-bottom: 0.5rem;">
-                        <a href="{{ .Permalink }}" style="color: #f0f0f0; text-decoration: none;">{{ .Title }}</a>
-                    </h3>
-                    {{ with .Date }}
-                    <div style="color: #999; font-size: 0.9rem; margin-bottom: 0.5rem;">{{ .Format "January 2, 2006" }}
-                    </div>
-                    {{ end }}
-                    {{ with .Summary }}
-                    <p style="color: #ccc; font-size: 0.95rem;">{{ . }}</p>
-                    {{ end }}
-                </div>
-                {{ end }}
-            </div>
-        </section>
-        {{ end }}
     </div>
-
     <style>
-        /* Additional styles for content formatting */
         .container h2,
         .container h3,
         .container h4,

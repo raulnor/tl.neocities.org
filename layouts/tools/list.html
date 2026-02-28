@@ -30,7 +30,7 @@
             {{ range $toolPages }}
                 <article class="archive-item">
                     <div class="archive-row">
-                        <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+                        <h3><a href="{{ .RelPermalink }}" target="_blank">{{ .Title }}</a></h3>
                         {{ if .Date }}
                         <div class="page-date">{{ .Date.Format "January 2, 2006" }}</div>
                         {{ end }}
