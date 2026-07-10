@@ -23,7 +23,6 @@
         </div>
         {{ end }}
 
-        <!-- All Pages with Full Details -->
         {{ $archivePages := where .Site.RegularPages "Section" "!=" "tools" }}
         {{ $archivePages = where $archivePages "Params.excludeFromArchive" "!=" true }}
         {{ if $archivePages }}
@@ -35,7 +34,7 @@
             {{ range $archivePages }}
                 <article class="archive-item">
                     <div class="archive-row">
-                        <h3><a href="{{ .RelPermalink }}">{{ .Title }} {{ .Section }}</a></h3>
+                        <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
                         {{ if .Date }}
                         <div class="page-date">{{ .Date.Format "January 2, 2006" }}</div>
                         {{ end }}
@@ -48,5 +47,9 @@
         {{ end }}
     </div>
 </body>
+
+<style>
+    .archive-count { color: #BBB; font-style: italic; margin-bottom: 1rem; }
+</style>
 
 </html>

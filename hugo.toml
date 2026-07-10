@@ -12,11 +12,14 @@ title = 'Travis Luckenbaugh'
   extensions.typographer = false
   renderer.unsafe = true
 
+[security]
+  allowContent = ['^text/(html|markdown)$']
+
 [markup.highlight]
   style = "github-dark"
 
 [[cascade]]
-  [cascade._build]
+  [cascade.build]
     list = "never"
-  [cascade._target]
+  [cascade.target]
     path = "{/wiki/**,/tdp/**}"
