@@ -17,3 +17,5 @@ Fable is disappearing from non-token based plans on June 23. After months of hyp
 Quality of response is at best inconsistent. Anthropic claims they're falling back to Opus in some cases. Is the quality drop the fallback? Is it a side effect of the neutering? Is it endemic to Fable? Mythos? There's no way to know.
 
 This is the first time I've felt a need to look at local models seriously since Llama 70B. For now, my hardware limits what models I can run and Sonnet/Opus still exist.
+
+**July 10 Update:** After a brief interlude where ["fix this code"](https://www.lutasecurity.com/post/the-fable-5-export-controls-harm-us-cyber-defense) prevented users from accessing Fable, [Fable is neutered even further and Mythos access now requires federal approval](https://www.anthropic.com/news/redeploying-fable-5).
